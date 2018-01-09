@@ -11,7 +11,6 @@ class PantryTest < Minitest::Test
   end
 
   def test_stock_test_returns_ingredient_in_pantry
-    skip
     pantry = Pantry.new
 
     assert_equal 0, pantry.stock_check("Cheese")
