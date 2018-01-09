@@ -49,4 +49,16 @@ class Pantry
     @cookbook << recipe
   end
 
+  def what_can_i_make
+    recommended_recipes = @cookbook.find_all do |recipe|
+      check_for_ingredients(recipe) == true
+    end
+    recommended_recipes.map {|recipe| recipe.name}
+  end
+
+  def check_for_ingredients(recipe)
+    recipe.ingredients.all? do |ingredient, amount|
+      amount < @stock[ingredient]
+    end
+  end
 end
