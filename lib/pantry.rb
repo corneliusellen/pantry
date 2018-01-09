@@ -18,28 +18,28 @@ class Pantry
     end
   end
 
-  def restock(ingredient, quantity)
+  def restock(ingredient, amount)
     if @stock[ingredient] == nil
-      @stock[ingredient] = quantity
+      @stock[ingredient] = amount
     else
-      @stock[ingredient] += quantity
+      @stock[ingredient] += amount
     end
   end
 
   def add_to_shopping_list(recipe)
-    recipe.ingredients.each_pair do |key, value|
-      if @shopping_list.has_key?(key)
-        @shopping_list[key] += value
+    recipe.ingredients.each_pair do |ingredient, amount|
+      if @shopping_list.has_key?(ingredient)
+        @shopping_list[ingredient] += amount
       else
-        @shopping_list[key] = value
+        @shopping_list[ingredient] = amount
       end
     end
   end
 
   def print_shopping_list
     list = ""
-    @shopping_list.each_pair do |key, value|
-      line_item = "* #{key}: #{value}\n"
+    @shopping_list.each_pair do |ingredient, amount|
+      line_item = "* #{ingredient}: #{amount}\n"
       list += line_item
     end
     list.chomp
@@ -61,7 +61,7 @@ class Pantry
 
   def check_for_ingredients(recipe)
     recipe.ingredients.all? do |ingredient, amount|
-      amount < @stock[ingredient]
+      amount <= @stock[ingredient]
     end
   end
 
@@ -73,10 +73,9 @@ class Pantry
   end
 
   def check_for_quanity_in_stock(recipe)
-    quanities_ingredients = recipe.ingredients.map do |ingredient, amount|
+    available_quanities_per_ingredient = recipe.ingredients.map do |ingredient, amount|
       @stock[ingredient] / amount
     end
-    quanities_ingredients.min
+    available_quanities_per_ingredient.min
   end
-
 end
