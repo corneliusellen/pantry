@@ -129,6 +129,6 @@ class PantryTest < Minitest::Test
     assert_equal ["Pickles", "Peanuts"], pantry.what_can_i_make
 
     result = {"Pickles" => 4, "Peanuts" => 2}
-    asert_equal result, pantry.how_many_can_i_make
+    assert_equal result, pantry.how_many_can_i_make
   end
 end
