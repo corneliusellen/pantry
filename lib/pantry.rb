@@ -50,10 +50,13 @@ class Pantry
   end
 
   def what_can_i_make
-    recommended_recipes = @cookbook.find_all do |recipe|
-      check_for_ingredients(recipe) == true
-    end
     recommended_recipes.map {|recipe| recipe.name}
+  end
+
+  def recommended_recipes
+    @cookbook.find_all do |recipe|
+      check_for_ingredients(recipe) == true
+    end 
   end
 
   def check_for_ingredients(recipe)
@@ -61,4 +64,19 @@ class Pantry
       amount < @stock[ingredient]
     end
   end
+
+  def how_many_can_i_make
+    what_can_i_make.map do |recipe|
+      check_for_quanity_in_stock(recipe)
+    end
+  end
+
+  def check_for_quanity_in_stock(recipe)
+    quanities_ingredients = recipe.ingredients.map do |ingredient, amount|
+      @stock[ingredient] / amount
+    end
+    require 'pry'; binding.pry
+    quanities_ingredients.min
+  end
+
 end

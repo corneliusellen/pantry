@@ -101,7 +101,7 @@ class PantryTest < Minitest::Test
     assert value
   end
 
-  def test_pantry_can_recommend_recipes_based_on_pantry_stock
+  def test_pantry_can_recommend_recipes_and_quantities_based_on_pantry_stock
     pantry = Pantry.new
     r1 = Recipe.new("Cheese Pizza")
     r1.add_ingredient("Cheese", 20)
@@ -127,5 +127,8 @@ class PantryTest < Minitest::Test
     pantry.restock("Salt", 20)
 
     assert_equal ["Pickles", "Peanuts"], pantry.what_can_i_make
+
+    result = {"Pickles" => 4, "Peanuts" => 2}
+    asert_equal result, pantry.how_many_can_i_make
   end
 end
