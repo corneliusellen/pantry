@@ -26,8 +26,21 @@ class Pantry
 
   def add_to_shopping_list(recipe)
     recipe.ingredients.each_pair do |key, value|
-      @shopping_list[key] = value
+      if @shopping_list.has_key?(key)
+        @shopping_list[key] += value
+      else
+        @shopping_list[key] = value
+      end
     end
+  end
+
+  def print_shopping_list
+    list = ""
+    @shopping_list.each_pair do |key, value|
+      line_item = "* #{key}: #{value}\n"
+      list += line_item
+    end
+    list.chomp
   end
 
 end
